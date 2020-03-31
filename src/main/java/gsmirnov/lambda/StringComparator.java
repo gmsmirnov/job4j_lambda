@@ -23,5 +23,10 @@ public class StringComparator {
     /**
      * Compare two strings by size in revers order.
      */
-    public static final Comparator<String> CMP_DESC_SIZE = (left, right) -> (-1) * (left.length() - right.length());
+    public static final Comparator<String> CMP_DESC_SIZE = (left, right) -> {
+        int result = (-1) * (left.length() - right.length());
+        System.out.println(String.format("Compare - %s : %s", left, right));
+        System.out.println(String.format("Result is: %d", result));
+        return result;
+    };
 }
