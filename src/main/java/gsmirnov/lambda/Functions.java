@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import static java.lang.Math.pow;
-
 /**
  * Some functions (linear, quadratic and exponential), which calculate values in the specified range.
  *
@@ -28,41 +26,5 @@ public class Functions {
             result.add(func.apply((double) index));
         }
         return result;
-    }
-
-    /**
-     * Linear function.
-     *
-     * @param start left border of the range.
-     * @param end right border of the range.
-     * @return a list of values, calculated by this linear function in the specified range.
-     */
-    public static List<Double> linearFunc(int start, int end) {
-        Function<Double, Double> func = x -> x * 10 - 3;
-        return diapason(start, end, func);
-    }
-
-    /**
-     * Quadratic function.
-     *
-     * @param start left border of the range.
-     * @param end right border of the range.
-     * @return a list of values, calculated by this quadratic function in the specified range.
-     */
-    public static List<Double> quadFunc(int start, int end) {
-        Function<Double, Double> func = x -> 5 * x * x;
-        return diapason(start, end, func);
-    }
-
-    /**
-     * Exponential function.
-     *
-     * @param start left border of the range.
-     * @param end right border of the range.
-     * @return a list of values, calculated by this exponential function in the specified range.
-     */
-    public static List<Double> expFunc(int start, int end) {
-        Function<Double, Double> func = x -> pow(5, x);
-        return diapason(start, end, func);
     }
 }

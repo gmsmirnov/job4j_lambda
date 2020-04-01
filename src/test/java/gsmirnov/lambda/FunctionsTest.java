@@ -4,9 +4,8 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static gsmirnov.lambda.Functions.expFunc;
-import static gsmirnov.lambda.Functions.linearFunc;
-import static gsmirnov.lambda.Functions.quadFunc;
+import static gsmirnov.lambda.Functions.*;
+import static java.lang.Math.pow;
 import static org.junit.Assert.assertArrayEquals;
 
 /**
@@ -19,21 +18,21 @@ import static org.junit.Assert.assertArrayEquals;
 public class FunctionsTest {
     @Test
     public void whenLinearFunctionThenLinearResults() {
-        List<Double> result = linearFunc(5, 8);
+        List<Double> result = diapason(5, 8, x -> x * 10 - 3);
         Double[] expected = new Double[] {47D, 57D, 67D, 77D};
         assertArrayEquals(expected, result.toArray());
     }
 
     @Test
     public void whenQuadFunctionThenQuadResults() {
-        List<Double> result = quadFunc(5, 8);
+        List<Double> result = diapason(5, 8, x -> 5 * x * x);
         Double[] expected = new Double[] {125D, 180D, 245D, 320D};
         assertArrayEquals(expected, result.toArray());
     }
 
     @Test
     public void whenExpFunctionThenExpResults() {
-        List<Double> result = expFunc(5, 8);
+        List<Double> result = diapason(5, 8, x -> pow(5, x));
         Double[] expected = new Double[] {3125D, 15625D, 78125D, 390625D};
         assertArrayEquals(expected, result.toArray());
     }
