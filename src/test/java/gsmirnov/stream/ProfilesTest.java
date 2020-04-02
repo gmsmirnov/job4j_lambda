@@ -19,13 +19,16 @@ public class ProfilesTest {
     @Before
     public void init() {
         this.profiles.add(new Profile(new Address("Moscow", "Lenina", 10, 5)));
+        this.profiles.add(new Profile(new Address("Moscow", "Lenina", 10, 5)));
+        this.profiles.add(new Profile(new Address("Moscow", "Lenina", 10, 5)));
         this.profiles.add(new Profile(new Address("Novosibirsk", "Sovetskaya", 27, 19)));
         this.profiles.add(new Profile(new Address("Moscow", "Arbat", 19, 1)));
         this.profiles.add(new Profile(new Address("Novosibirsk", "Lenina", 25, 7)));
+        this.profiles.add(new Profile(new Address("Moscow", "Lenina", 10, 5)));
     }
 
     @Test
-    public void test() {
+    public void profileToAddressTransformTest() {
         List<Address> result = collect(this.profiles);
         assertThat(result, containsInAnyOrder(
                 new Address("Moscow", "Lenina", 10, 5),

@@ -1,5 +1,6 @@
 package gsmirnov.stream;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,8 @@ import java.util.stream.Collectors;
  */
 public class Profiles {
     /**
-     * Converts the list of given profiles into the list of addresses.
+     * Converts the list of given profiles into the list of addresses. Sorts addresses by cities and takes only unique
+     * addresses into the final list.
      *
      * @param profiles given profiles list.
      * @return converted into addresses list.
@@ -24,6 +26,8 @@ public class Profiles {
                                 profile.getAddress().getStreet(),
                                 profile.getAddress().getHome(),
                                 profile.getAddress().getApartment()))
+                .sorted(Comparator.comparing(Address::getCity))
+                .distinct()
                 .collect(Collectors.toList());
     }
 }
