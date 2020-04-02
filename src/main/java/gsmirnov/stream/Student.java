@@ -7,10 +7,20 @@ import java.util.Objects;
  * Student model.
  *
  * @author Gregory Smirnov (gsmirnov <artress@ngs.ru>)
- * @version 0.1
+ * @version 0.2
  * @since 2020-04-01
  */
 public class Student {
+    /**
+     * This student's surname.
+     */
+    private String surname;
+
+    /**
+     * This student's first name.
+     */
+    private String name;
+
     /**
      * This student's rating.
      */
@@ -19,10 +29,62 @@ public class Student {
     /**
      * Constructor. Creates a student with the specified params.
      *
+     * @param surname the specified surname.
+     * @param name the specified first name.
      * @param score the specified score.
      */
-    public Student(int score) {
+    public Student(String surname, String name, int score) {
+        this.surname = surname;
+        this.name = name;
         this.score = score;
+    }
+
+    /**
+     * Constructor. Creates a student with the specified params and default zero score.
+     *
+     * @param surname the specified surname.
+     * @param name the specified first name.
+     */
+    public Student(String surname, String name) {
+        this.surname = surname;
+        this.name = name;
+        this.score = 0;
+    }
+
+    /**
+     * Gets this student's surname.
+     *
+     * @return this student's surname.
+     */
+    public String getSurname() {
+        return this.surname;
+    }
+
+    /**
+     * Sets the specified surname to this student.
+     *
+     * @param surname the specified surname.
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * Gets this students name.
+     *
+     * @return this students name.
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Sets the specified name to this student.
+     *
+     * @param name the specified name.
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -58,7 +120,7 @@ public class Student {
             result = false;
         } else {
             Student student = (Student) o;
-            result = this.score == student.score;
+            result = Objects.equals(this.surname, student.surname) && Objects.equals(this.name, student.name);
         }
         return result;
     }
@@ -70,7 +132,7 @@ public class Student {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.score);
+        return Objects.hash(this.surname, this.name);
     }
 
     /**
@@ -80,6 +142,6 @@ public class Student {
      */
     @Override
     public String toString() {
-        return String.format("Student{score=%d}", this.score);
+        return String.format("Student{surname='%s', name='%s', score=%d}", this.surname, this.name, this.score);
     }
 }
