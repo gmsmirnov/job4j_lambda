@@ -21,11 +21,7 @@ public class Profiles {
      */
     public static List<Address> collect(List<Profile> profiles) {
         return profiles.stream()
-                .map(profile -> new Address(
-                                profile.getAddress().getCity(),
-                                profile.getAddress().getStreet(),
-                                profile.getAddress().getHome(),
-                                profile.getAddress().getApartment()))
+                .map(profile -> new Address(profile.getAddress()))
                 .sorted(Comparator.comparing(Address::getCity))
                 .distinct()
                 .collect(Collectors.toList());

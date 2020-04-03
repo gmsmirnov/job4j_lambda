@@ -46,6 +46,18 @@ public class Address {
     }
 
     /**
+     * Creates an address with params of another address.
+     *
+     * @param address another address.
+     */
+    public Address(Address address) {
+        this.city = address.getCity();
+        this.street = address.getStreet();
+        this.home = address.getHome();
+        this.apartment = address.getApartment();
+    }
+
+    /**
      * Gets the city of this address.
      *
      * @return the city of this address.
