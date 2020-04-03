@@ -74,4 +74,14 @@ public class SchoolTest {
         assertThat(studentsMap.get("Sidorov"), is(new Student("Sidorov", "Sidr")));
         assertThat(studentsMap.get("Pupkin"), is(new Student("Pupkin", "Vasya")));
     }
+
+    @Test
+    public void whenSameCaseThenLeaveFirst() {
+        List<Student> studList = Arrays.asList(
+                new Student("Ivanov", "Ivan", 77),
+                new Student("Ivanov", "Ivan2", 77)
+        );
+        Map<String, Student> studentsMap = collectMap(studList);
+        assertThat(studentsMap.get("Ivanov").getName(), is("Ivan"));
+    }
 }

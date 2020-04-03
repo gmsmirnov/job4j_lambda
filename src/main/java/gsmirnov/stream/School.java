@@ -34,6 +34,6 @@ public class School {
      * @return the map of students, where key is student's surname and value is the student itself.
      */
     public static Map<String, Student> collectMap(List<Student> students) {
-        return students.stream().collect(Collectors.toMap(Student::getSurname, student -> student));
+        return students.stream().collect(Collectors.toMap(Student::getSurname, student -> student, (student, student2) -> student));
     }
 }
