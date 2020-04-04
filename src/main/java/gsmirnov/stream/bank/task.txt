@@ -1,0 +1,236 @@
+В задаче Банковские переводы использовать Stream.
+
+В этом задании вам нужно разработать модель для банковской системы.
+В системе можно производитель следующие действия.
+1. Регистрировать пользователя.
+2. Удалять пользователя из системы.
+3. Добавлять пользователю банковский счет. У пользователя системы могут быть несколько счетов.
+4. Переводить деньги с одного банковского счета на другой счет.
+
+Давайте начнем с моделей данных.
+
+Начнем мы с описания модели банковского счета. Эта модель содержит поля: баланс и реквизиты.
+
+ru.job4j.bank.Account.
+package ru.job4j.bank;
+
+import java.util.Objects;
+
+public class Account {
+    private String requisite;
+    private double balance;
+
+    public Account(String requisite, double balance) {
+        this.requisite = requisite;
+        this.balance = balance;
+    }
+
+    public String getRequisite() {
+        return requisite;
+    }
+
+    public void setRequisite(String requisite) {
+        this.requisite = requisite;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(requisite, account.requisite);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(requisite);
+    }
+}
+Теперь давайте опишем модель пользователя банка.
+
+ru.job4j.bank.User. Это модель содержит поля: номер паспорта и ФИО.
+
+package ru.job4j.bank;
+
+import java.util.Objects;
+
+public class User {
+    private String passport;
+    private String username;
+
+    public User(String passport, String username) {
+        this.passport = passport;
+        this.username = username;
+    }
+
+    public String getPassport() {
+        return passport;
+    }
+
+    public void setPassport(String passport) {
+        this.passport = passport;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(passport, user.passport);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(passport);
+    }
+}
+Теперь давайте создадим главый сервис ru.job4j.bank.BankService.
+
+package ru.job4j.bank;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class BankService {
+    private Map<User, List<Account>> users = new HashMap<>();
+
+    public void addUser(User user) {
+
+    }
+
+    public void addAccount(String passport, Account account) {
+
+    }
+
+    public User findByPassport(String passport) {
+        return null;
+    }
+
+    public Account findByRequisite(String passport, String requisite) {
+        return null;
+    }
+
+    public boolean transferMoney(String srcPassport, String srcRequisite,
+                                 String destPassport, String dеstRequisite, double amount) {
+        boolean rsl = false;
+        return rsl;
+    }
+}
+
+Давайте обсудим код.
+private Map<User, List<Account>> users = new HashMap<>();
+Это поле содержит всех пользователей системы с привязанными к ним счетами.
+
+public void addUser(User user) {
+Это метод должен добавить пользователя в систему. Чтобы добавить пользователя в систему нужно использовать метод Map.put.
+Этот метод принимает два параметра: пользователя и список счетов. По умолчанию нужно добавить пустой список - new ArrayList<Account>().
+В методе должна быть проверка, что такого пользователя еще нет в системе. Если он есть, то нового добавлять не надо.
+
+public void addAccount(String passport, Account account) {
+Должен добавить новый счет к пользователю. Первоначально пользователя нужно найти по паспорту. Для этого нужно использовать метод findByPassport.
+
+После этого мы получим список всех счетов пользователя и добавим новый счет к ним. В этом методе должна быть проверка, что такого счета у пользователя еще нет.
+
+public User findByPassport(String passport) {
+Это метод ищет пользователя по номеру паспорта. Здесь нужно использовать перебор всех элементов через цикл for-earch и метод Map.keySet.
+
+public Account findByRequisite(String passport, String requisite) {
+Этот метод идет счет пользователя по реквизитам. Сначала нужно найти пользователя. Потом получить список счетов этого пользователя и в нем найти нужный счет.
+
+public boolean transferMoney(String srcPassport, String srcRequisite,
+                                 String destPassport, String dеstRequisite, double amount) {
+
+Метод для перечисления денег с одного счёта на другой счёт.
+Если счёт не найден или не хватает денег на счёте srcAccount (с которого переводят), то метод должен вернуть false.
+
+Посмотрите на методы Map.putIfAbsent и List.contains, как их можно применить в этом задании.
+
+Метод putIfAbsent позволяет проверить, если ли такой ключ в карте или нет и если его нет, то произвести вставку данных.
+Этот метод позволяет уменьшить количество кода.
+
+Метод List.indexOf позволяет найти индекс элемента по значению. Проверка элементов в этом методе происходит по методу equals. Обратите внимание, что в моделях User и Account используется только одно поле passport и requisite для сравнения объектов. Это позволяет использовать эти методы, без информации о всех полях.
+
+Пример.
+
+public static void main(String[] args) {
+    List<Account> accounts = new ArrayList<>();
+    String requisite = "3fdsbb9";
+    accounts.add(new Account("3fdsbb9", 140));
+    int index = accounts.indexOf(new Account(requisite, -1));
+    Account find = accounts.get(index);
+    System.out.println(find.getRequisite() + " -> " + find.getBalance());
+}
+
+
+Давайте напишем несколько тестов.
+
+
+
+package ru.job4j.bank;
+
+import org.junit.Test;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
+
+public class BankServiceTest {
+
+    @Test
+    public void addUser() {
+        User user = new User("3434", "Petr Arsentev");
+        BankService bank = new BankService();
+        bank.addUser(user);
+        assertThat(bank.findByPassport("3434"), is(user));
+    }
+
+    @Test
+    public void whenEnterInvalidPassport() {
+        User user = new User("3434", "Petr Arsentev");
+        BankService bank = new BankService();
+        bank.addUser(user);
+        bank.addAccount(user.getId(), new Account("5546", 150D));
+        assertNull(bank.findByRequisite("34", "5546"));
+    }
+
+    @Test
+    public void addAccount() {
+        User user = new User("3434", "Petr Arsentev");
+        BankService bank = new BankService();
+        bank.addUser(user);
+        bank.addAccount(user.getPassport(), new Account("5546", 150D));
+        assertThat(bank.findByRequisite("3434", "5546").getBalance(), is(150D));
+    }
+
+    @Test
+    public void transferMoney() {
+        User user = new User("3434", "Petr Arsentev");
+        BankService bank = new BankService();
+        bank.addUser(user);
+        bank.addAccount(user.getPassport(), new Account("5546", 150D));
+        bank.addAccount(user.getPassport(), new Account("113", 50D));
+        bank.transferMoney(user.getPassport(), "5546", user.getPassport(), "113", 150D);
+        assertThat(bank.findByRequisite(user.getPassport(), "113").getBalance(), is(200D));
+    }
+}
+
+Задание.
+1. Реализуйте банковский сервис.
+2. Залейте код в репозиторий и оставьте ссылку на коммит в эту задачу.
+3. Переведите ответственного на Петра Арсентьева.
