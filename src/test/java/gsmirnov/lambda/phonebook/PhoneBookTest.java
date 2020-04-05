@@ -24,7 +24,7 @@ public class PhoneBookTest {
 
     @Test
     public void whenFindByName() {
-        List<Person> persons = this.phoneBook.find("Petr");
+        var persons = this.phoneBook.find("Petr");
         assertThat(persons.size(), is(2));
         assertThat(persons.get(0).getName(), is("Petr"));
         assertThat(persons.get(0).getSurname(), is("Petrov"));
@@ -38,7 +38,7 @@ public class PhoneBookTest {
 
     @Test
     public void whenFindBySurname() {
-        List<Person> persons = this.phoneBook.find("petr");
+        var persons = this.phoneBook.find("petr");
         assertThat(persons.size(), is(2));
         assertThat(persons.get(0).getName(), is("Petr"));
         assertThat(persons.get(0).getSurname(), is("Petrov"));
@@ -52,7 +52,7 @@ public class PhoneBookTest {
 
     @Test
     public void whenFindByPhone() {
-        List<Person> persons = this.phoneBook.find("992511872");
+        var persons = this.phoneBook.find("992511872");
         assertThat(persons.size(), is(1));
         assertThat(persons.get(0).getName(), is("Pavel"));
         assertThat(persons.get(0).getSurname(), is("Pavlov"));
@@ -62,7 +62,7 @@ public class PhoneBookTest {
 
     @Test
     public void whenFindByAddress() {
-        List<Person> persons = this.phoneBook.find("MOSCOW");
+        var persons = this.phoneBook.find("MOSCOW");
         assertThat(persons.size(), is(2));
         assertThat(persons.get(0).getName(), is("Pavel"));
         assertThat(persons.get(0).getSurname(), is("Pavlov"));

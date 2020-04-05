@@ -33,8 +33,8 @@ public class PhoneBook {
      * @return the list of all matched persons from this phone book.
      */
     public List<Person> find(String key) {
-        List<Person> result = new ArrayList<Person>();
-        for (Person person : this.phoneBook) {
+        var result = new ArrayList<Person>();
+        for (var person : this.phoneBook) {
             if (this.createFilter(key.toLowerCase()).test(person)) {
                 result.add(person);
             }
