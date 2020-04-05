@@ -16,13 +16,16 @@ import static org.junit.Assert.*;
 public class UserTest {
     @Test
     public void whenAsc() {
-        Set<User> users = new TreeSet<>();
-        users.add(new User("Max", 29));
-        users.add(new User("Ivan", 15));
-        users.add(new User("Hans", 18));
-        users.add(new User("Petr", 32));
-        users.add(new User("Ivan", 31));
-        users.add(new User("Fritz", 17));
+        Set<User> users = new TreeSet<User>(
+                Set.of(
+                        new User("Max", 29),
+                        new User("Ivan", 15),
+                        new User("Hans", 18),
+                        new User("Petr", 32),
+                        new User("Ivan", 31),
+                        new User("Fritz", 17)
+                )
+        );
         Iterator<User> it = users.iterator();
         assertThat(it.next(), is(new User("Fritz", 17)));
         assertThat(it.next(), is(new User("Hans", 18)));
