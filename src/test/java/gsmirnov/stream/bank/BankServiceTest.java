@@ -81,6 +81,21 @@ public class BankServiceTest {
     }
 
     @Test
+    public void whenAddAccountToInvalidUser() {
+        String passport = "5005 611347";
+
+        String requisite = "4658103780";
+        double balance = 100.00;
+        Account account = new Account(requisite, balance);
+
+        BankService bank = new BankService();
+        bank.addAccount(passport, account);
+
+        assertNull(bank.findByPassport(passport));
+        assertNull(bank.findByRequisite(passport, requisite));
+    }
+
+    @Test
     public void whenEnteredInvalidAccount() {
         String passport = "5005 611347";
         String name = "Ivanov Ivan";

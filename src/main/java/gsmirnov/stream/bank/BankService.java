@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Bank services. Stores users and accounts. Provides transfer operations.
@@ -34,9 +33,11 @@ public class BankService {
      */
     public void addAccount(String passport, Account account) {
         User user = findByPassport(passport);
-        List<Account> accounts = this.users.get(user);
-        if (!accounts.contains(account)) {
-            accounts.add(account);
+        if (user != null) {
+            List<Account> accounts = this.users.get(user);
+            if (!accounts.contains(account)) {
+                accounts.add(account);
+            }
         }
     }
 
@@ -47,10 +48,9 @@ public class BankService {
      * @return the user if exists.
      */
     public User findByPassport(String passport) {
-        List<User> filteredUsers = this.users.keySet().stream()
+        return this.users.keySet().stream()
                 .filter(user -> user.getPassport().equals(passport))
-                .collect(Collectors.toList());
-        return filteredUsers.isEmpty() ? null : filteredUsers.get(0);
+                .findFirst().orElse(null);
     }
 
     /**
@@ -64,10 +64,9 @@ public class BankService {
         Account result = null;
         List<Account> accounts = this.users.get(findByPassport(passport));
         if (accounts != null) {
-            List<Account> filteredAcc = accounts.stream()
-                    .filter(account -> account.getRequisite().equals(requisite))
-                    .collect(Collectors.toList());
-            result = filteredAcc.isEmpty() ? null : filteredAcc.get(0);
+              result = accounts.stream()
+                      .filter(account -> account.getRequisite().equals(requisite))
+                      .findFirst().orElse(null);
         }
         return result;
     }
