@@ -10,6 +10,8 @@ import java.util.Map;
 
 import static gsmirnov.stream.School.collect;
 import static gsmirnov.stream.School.collectMap;
+import static gsmirnov.stream.School.levelOf;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -24,11 +26,14 @@ public class SchoolTest {
         students.add(new Student("Ivanov", "Ivan", 77));
         students.add(new Student("Petrov", "Petr", 55));
         students.add(new Student("Pupkin", "Vasya", 14));
+        students.add(null);
         students.add(new Student("Semenov", "Semen", 91));
         students.add(new Student("Vasiliev", "Vasilii", 87));
+        students.add(null);
         students.add(new Student("Andreev", "Andrey", 98));
         students.add(new Student("Pavlov", "Pavel", 68));
         students.add(new Student("Sidorov", "Sidr", 16));
+        students.add(null);
         students.add(new Student("Borisov", "Boris", 49));
         students.add(new Student("Marinina", "Marina", 31));
     }
@@ -83,5 +88,11 @@ public class SchoolTest {
         );
         Map<String, Student> studentsMap = collectMap(studList);
         assertThat(studentsMap.get("Ivanov").getName(), is("Ivan"));
+    }
+
+    @Test
+    public void whenFilterStudentsByScoreBound() {
+        List<Student> studentsBounded = levelOf(this.students, 20);
+        studentsBounded.forEach(student -> assertThat(student.getScore(), greaterThanOrEqualTo(20)));
     }
 }

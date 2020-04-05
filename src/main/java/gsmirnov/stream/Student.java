@@ -7,10 +7,10 @@ import java.util.Objects;
  * Student model.
  *
  * @author Gregory Smirnov (gsmirnov <artress@ngs.ru>)
- * @version 0.2
+ * @version 0.3
  * @since 2020-04-01
  */
-public class Student {
+public class Student implements Comparable<Student> {
     /**
      * This student's surname.
      */
@@ -143,5 +143,22 @@ public class Student {
     @Override
     public String toString() {
         return String.format("Student{surname='%s', name='%s', score=%d}", this.surname, this.name, this.score);
+    }
+
+    /**
+     * Compares this student with another by the score level.
+     *
+     * @param o another student.
+     * @return 1 if another student's score level is greater, -1 if another student's score level is lower, 0 if the levels are equals.
+     */
+    @Override
+    public int compareTo(Student o) {
+        int result = 0;
+        if (this.getScore() > o.getScore()) {
+            result = -1;
+        } else if (this.getScore() < o.getScore()) {
+            result = 1;
+        }
+        return result;
     }
 }
