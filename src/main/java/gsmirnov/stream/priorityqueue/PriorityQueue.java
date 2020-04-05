@@ -24,7 +24,7 @@ public class PriorityQueue {
         if (this.tasks.isEmpty()) {
             this.tasks.add(task);
         } else {
-            for (int index = 0; index < this.tasks.size(); index++) {
+            for (var index = 0; index < this.tasks.size(); index++) {
                 if (this.tasks.get(index).getPriority() > task.getPriority()) {
                     this.tasks.add(index, task);
                     break;
