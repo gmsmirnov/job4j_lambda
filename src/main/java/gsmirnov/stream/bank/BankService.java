@@ -1,9 +1,6 @@
 package gsmirnov.stream.bank;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Bank services. Stores users and accounts. Provides transfer operations.
@@ -32,9 +29,9 @@ public class BankService {
      * @param account the specified user's account.
      */
     public void addAccount(String passport, Account account) {
-        User user = findByPassport(passport);
-        if (user != null) {
-            List<Account> accounts = this.users.get(user);
+        Optional<User> user = Optional.ofNullable(findByPassport(passport));
+        if (user.isPresent()) {
+            List<Account> accounts = this.users.get(user.get());
             if (!accounts.contains(account)) {
                 accounts.add(account);
             }
@@ -62,11 +59,11 @@ public class BankService {
      */
     public Account findByRequisite(String passport, String requisite) {
         Account result = null;
-        List<Account> accounts = this.users.get(findByPassport(passport));
-        if (accounts != null) {
-              result = accounts.stream()
-                      .filter(account -> account.getRequisite().equals(requisite))
-                      .findFirst().orElse(null);
+        Optional<List<Account>> accounts = Optional.ofNullable(this.users.get(findByPassport(passport)));
+        if (accounts.isPresent()) {
+            result = accounts.get().stream()
+                    .filter(account -> account.getRequisite().equals(requisite))
+                    .findFirst().orElse(null);
         }
         return result;
     }
@@ -84,11 +81,11 @@ public class BankService {
     public boolean transferMoney(String srcPassport, String srcRequisite,
                                  String dstPassport, String dstRequisite, double amount) {
         boolean result = false;
-        Account src = this.findByRequisite(srcPassport, srcRequisite);
-        Account dst = this.findByRequisite(dstPassport, dstRequisite);
-        if (src != null && dst != null && src.getBalance() - amount >= 0) {
-            src.setBalance(src.getBalance() - amount);
-            dst.setBalance(dst.getBalance() + amount);
+        Optional<Account> src = Optional.ofNullable(this.findByRequisite(srcPassport, srcRequisite));
+        Optional<Account> dst = Optional.ofNullable(this.findByRequisite(dstPassport, dstRequisite));
+        if (src.isPresent() && dst.isPresent() && src.get().getBalance() - amount >= 0) {
+            src.get().setBalance(src.get().getBalance() - amount);
+            dst.get().setBalance(dst.get().getBalance() + amount);
             result = true;
         }
         return result;
