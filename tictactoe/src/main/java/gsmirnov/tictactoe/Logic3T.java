@@ -1,5 +1,8 @@
 package gsmirnov.tictactoe;
 
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 /**
  * Logic of application.
  *
@@ -23,12 +26,81 @@ public class Logic3T {
     }
 
     /**
+     * Checks for winning combination in table.
+     *
+     * @param predicate winning condition (X or O).
+     * @param startX X-axis start coordinate.
+     * @param startY Y-axis start coordinate.
+     * @param deltaX a step value on X-axis.
+     * @param deltaY a step value on Y-axis.
+     * @return true if there is a winning combination in table rows by the specified predicate condition, false either.
+     */
+    public boolean fillBy(Predicate<Figure3T> predicate, int startX, int startY, int deltaX, int deltaY) {
+        boolean result = true;
+        for (int index = 0; index != this.table.length; index++) {
+            Figure3T cell = this.table[startX][startY];
+            if (!predicate.test(cell)) {
+                result = false;
+                break;
+            }
+            startX += deltaX;
+            startY += deltaY;
+        }
+        return result;
+    }
+
+    /**
+     * Checks for winning combination in table columns.
+     *
+     * @param predicate winning condition (X or O).
+     * @param startX X-axis start coordinate.
+     * @param startY Y-axis start coordinate.
+     * @param deltaX a step value on X-axis.
+     * @param deltaY a step value on Y-axis.
+     * @return true if there is a winning combination in table rows by the specified predicate condition, false either.
+     */
+    public boolean checkColumns(Predicate<Figure3T> predicate, int startX, int startY, int deltaX, int deltaY) {
+        boolean result = false;
+        for (int column = startX; column < this.table.length; column++) {
+            if (fillBy(predicate, column, startY, deltaX, deltaY)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Checks for winning combination in table rows.
+     *
+     * @param predicate winning condition (X or O).
+     * @param startX X-axis start coordinate.
+     * @param startY Y-axis start coordinate.
+     * @param deltaX a step value on X-axis.
+     * @param deltaY a step value on Y-axis.
+     * @return true if there is a winning combination in table rows by the specified predicate condition, false either.
+     */
+    public boolean checkRows(Predicate<Figure3T> predicate, int startX, int startY, int deltaX, int deltaY) {
+        boolean result = false;
+        for (int row = startY; row < this.table.length; row++) {
+            if (fillBy(predicate, startX, row, deltaX, deltaY)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Checks for winning combination of X.
      *
      * @return - true if there is winning combination of X.
      */
     public boolean isWinnerX() {
-        return false;
+        return this.checkRows(Figure3T::hasMarkX, 0, 0, 1, 0)
+                || this.checkColumns(Figure3T::hasMarkX, 0, 0, 0, 1)
+                || this.fillBy(Figure3T::hasMarkX, 0, 0, 1, 1)
+                || this.fillBy(Figure3T::hasMarkX, this.table.length - 1, 0, -1, 1);
     }
 
     /**
@@ -37,7 +109,10 @@ public class Logic3T {
      * @return - true if there is winning combination of O.
      */
     public boolean isWinnerO() {
-        return false;
+        return this.checkRows(Figure3T::hasMarkO, 0, 0, 1, 0)
+                || this.checkColumns(Figure3T::hasMarkO, 0, 0, 0, 1)
+                || this.fillBy(Figure3T::hasMarkO, 0, 0, 1, 1)
+                || this.fillBy(Figure3T::hasMarkO, this.table.length - 1, 0, -1, 1);
     }
 
     /**
@@ -46,8 +121,7 @@ public class Logic3T {
      * @return true if there is empty cells.
      */
     public boolean hasGap() {
-        return true;
+        long emptyQnt = Stream.of(this.table).flatMap(Stream::of).filter(x -> !(x.hasMarkX() || x.hasMarkO())).count();
+        return emptyQnt > 0;
     }
-
-
 }
