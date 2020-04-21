@@ -14,8 +14,8 @@ public class Logic3TTest {
                 {new Figure3T(), new Figure3T(), new Figure3T()},
         };
         Logic3T login = new Logic3T(table);
-        assertFalse(login.isWinnerX());
-        assertFalse(login.isWinnerX());
+        assertFalse(login.isWin(Figure3T::hasMarkX));
+        assertFalse(login.isWin(Figure3T::hasMarkO));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class Logic3TTest {
                 {new Figure3T(), new Figure3T(), new Figure3T()},
         };
         Logic3T login = new Logic3T(table);
-        assertTrue(login.isWinnerX());
+        assertTrue(login.isWin(Figure3T::hasMarkX));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class Logic3TTest {
                 {new Figure3T(), new Figure3T(true, false), new Figure3T()},
         };
         Logic3T login = new Logic3T(table);
-        assertTrue(login.isWinnerX());
+        assertTrue(login.isWin(Figure3T::hasMarkX));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class Logic3TTest {
                 {new Figure3T(), new Figure3T(), new Figure3T(true, false)},
         };
         Logic3T login = new Logic3T(table);
-        assertTrue(login.isWinnerX());
+        assertTrue(login.isWin(Figure3T::hasMarkX));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class Logic3TTest {
                 {new Figure3T(true, false), new Figure3T(), new Figure3T()},
         };
         Logic3T login = new Logic3T(table);
-        assertTrue(login.isWinnerX());
+        assertTrue(login.isWin(Figure3T::hasMarkX));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class Logic3TTest {
                 {new Figure3T(true, false), new Figure3T(), new Figure3T(true, false)},
         };
         Logic3T login = new Logic3T(table);
-        assertTrue(login.isWinnerO());
+        assertTrue(login.isWin(Figure3T::hasMarkO));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class Logic3TTest {
                 {new Figure3T(), new Figure3T(false, true), new Figure3T()},
         };
         Logic3T login = new Logic3T(table);
-        assertTrue(login.isWinnerO());
+        assertTrue(login.isWin(Figure3T::hasMarkO));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class Logic3TTest {
                 {new Figure3T(true, false), new Figure3T(false, true), new Figure3T(false, true)},
         };
         Logic3T login = new Logic3T(table);
-        assertTrue(login.isWinnerO());
+        assertTrue(login.isWin(Figure3T::hasMarkO));
     }
 
     @Test
@@ -125,6 +125,6 @@ public class Logic3TTest {
                 {new Figure3T(false, true), new Figure3T(false, true), new Figure3T(true, false)},
         };
         Logic3T login = new Logic3T(table);
-        assertTrue(login.isWinnerO());
+        assertTrue(login.isWin(Figure3T::hasMarkO));
     }
 }

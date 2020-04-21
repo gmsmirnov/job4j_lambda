@@ -92,27 +92,16 @@ public class Logic3T {
     }
 
     /**
-     * Checks for winning combination of X.
+     * Checks for winning combination by the specified condition.
      *
-     * @return - true if there is winning combination of X.
-     */
-    public boolean isWinnerX() {
-        return this.checkRows(Figure3T::hasMarkX, 0, 0, 1, 0)
-                || this.checkColumns(Figure3T::hasMarkX, 0, 0, 0, 1)
-                || this.fillBy(Figure3T::hasMarkX, 0, 0, 1, 1)
-                || this.fillBy(Figure3T::hasMarkX, this.table.length - 1, 0, -1, 1);
-    }
-
-    /**
-     * Checks for winning combination of O.
-     *
+     * @param winCondition the specified win condition (for X or for O).
      * @return - true if there is winning combination of O.
      */
-    public boolean isWinnerO() {
-        return this.checkRows(Figure3T::hasMarkO, 0, 0, 1, 0)
-                || this.checkColumns(Figure3T::hasMarkO, 0, 0, 0, 1)
-                || this.fillBy(Figure3T::hasMarkO, 0, 0, 1, 1)
-                || this.fillBy(Figure3T::hasMarkO, this.table.length - 1, 0, -1, 1);
+    public boolean isWin(Predicate<Figure3T> winCondition) {
+        return this.checkRows(winCondition, 0, 0, 1, 0)
+                || this.checkColumns(winCondition, 0, 0, 0, 1)
+                || this.fillBy(winCondition, 0, 0, 1, 1)
+                || this.fillBy(winCondition, this.table.length - 1, 0, -1, 1);
     }
 
     /**
@@ -121,7 +110,6 @@ public class Logic3T {
      * @return true if there is empty cells.
      */
     public boolean hasGap() {
-        long emptyQnt = Stream.of(this.table).flatMap(Stream::of).filter(x -> !(x.hasMarkX() || x.hasMarkO())).count();
-        return emptyQnt > 0;
+        return Stream.of(this.table).flatMap(Stream::of).anyMatch(x -> !(x.hasMarkX() || x.hasMarkO()));
     }
 }
