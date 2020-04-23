@@ -2,6 +2,8 @@ package gsmirnov.stream.bank;
 
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 
 /**
@@ -17,7 +19,7 @@ public class BankServiceTest {
         BankService bank = new BankService();
         bank.addUser(user);
 
-        assertEquals(name, bank.findByPassport(passport).getUsername());
+        assertEquals(name, bank.findByPassport(passport).get().getUsername());
     }
 
     @Test
@@ -35,8 +37,8 @@ public class BankServiceTest {
         bank.addUser(user2);
 
         assertEquals(passport1, passport2);
-        assertNotEquals(name2, bank.findByPassport(passport2).getUsername());
-        assertEquals(name1, bank.findByPassport(passport1).getUsername());
+        assertNotEquals(name2, bank.findByPassport(passport2).get().getUsername());
+        assertEquals(name1, bank.findByPassport(passport1).get().getUsername());
     }
 
     @Test
@@ -53,7 +55,7 @@ public class BankServiceTest {
         bank.addUser(user);
         bank.addAccount(passport, account);
 
-        assertEquals(account, bank.findByRequisite(passport, requisite));
+        assertEquals(account, bank.findByRequisite(passport, requisite).get());
     }
 
     @Test
@@ -76,8 +78,8 @@ public class BankServiceTest {
 
         double delta = 0.1;
         assertEquals(requisite1, requisite2);
-        assertNotEquals(balance2, bank.findByRequisite(passport, requisite2).getBalance(), delta);
-        assertEquals(balance1, bank.findByRequisite(passport, requisite1).getBalance(), delta);
+        assertNotEquals(balance2, bank.findByRequisite(passport, requisite2).get().getBalance(), delta);
+        assertEquals(balance1, bank.findByRequisite(passport, requisite1).get().getBalance(), delta);
     }
 
     @Test
@@ -91,8 +93,8 @@ public class BankServiceTest {
         BankService bank = new BankService();
         bank.addAccount(passport, account);
 
-        assertNull(bank.findByPassport(passport));
-        assertNull(bank.findByRequisite(passport, requisite));
+        assertEquals(Optional.empty(), bank.findByPassport(passport));
+        assertEquals(Optional.empty(), bank.findByRequisite(passport, requisite));
     }
 
     @Test
@@ -110,7 +112,7 @@ public class BankServiceTest {
         bank.addAccount(passport, account);
 
         String wrongRequisite = "0000000000";
-        assertNull(bank.findByRequisite(passport, wrongRequisite));
+        assertEquals(Optional.empty(), bank.findByRequisite(passport, wrongRequisite));
     }
 
     @Test
@@ -128,7 +130,7 @@ public class BankServiceTest {
         bank.addAccount(passport, account);
 
         String wrongPassport = "5000 611347";
-        assertNull(bank.findByRequisite(wrongPassport, requisite));
+        assertEquals(Optional.empty(), bank.findByRequisite(wrongPassport, requisite));
     }
 
     @Test
@@ -160,8 +162,8 @@ public class BankServiceTest {
         double dstExpected = 250.00;
 
         assertTrue(result);
-        assertEquals(srcExpected, bank.findByRequisite(srcPassport, srcRequisite).getBalance(), delta);
-        assertEquals(dstExpected, bank.findByRequisite(dstPassport, dstRequisite).getBalance(), delta);
+        assertEquals(srcExpected, bank.findByRequisite(srcPassport, srcRequisite).get().getBalance(), delta);
+        assertEquals(dstExpected, bank.findByRequisite(dstPassport, dstRequisite).get().getBalance(), delta);
     }
 
     @Test
@@ -193,7 +195,7 @@ public class BankServiceTest {
         double dstExpected = 200.00;
 
         assertFalse(result);
-        assertEquals(srcExpected, bank.findByRequisite(srcPassport, srcRequisite).getBalance(), delta);
-        assertEquals(dstExpected, bank.findByRequisite(dstPassport, dstRequisite).getBalance(), delta);
+        assertEquals(srcExpected, bank.findByRequisite(srcPassport, srcRequisite).get().getBalance(), delta);
+        assertEquals(dstExpected, bank.findByRequisite(dstPassport, dstRequisite).get().getBalance(), delta);
     }
 }

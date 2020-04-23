@@ -29,7 +29,7 @@ public class BankService {
      * @param account the specified user's account.
      */
     public void addAccount(String passport, Account account) {
-        Optional<User> user = Optional.ofNullable(findByPassport(passport));
+        Optional<User> user = findByPassport(passport);
         if (user.isPresent()) {
             List<Account> accounts = this.users.get(user.get());
             if (!accounts.contains(account)) {
@@ -44,10 +44,10 @@ public class BankService {
      * @param passport the specified passport.
      * @return the user if exists.
      */
-    public User findByPassport(String passport) {
+    public Optional<User> findByPassport(String passport) {
         return this.users.keySet().stream()
                 .filter(user -> user.getPassport().equals(passport))
-                .findFirst().orElse(null);
+                .findFirst();
     }
 
     /**
@@ -57,13 +57,13 @@ public class BankService {
      * @param requisite the specified user's requisite.
      * @return an account matched to the specified passport and requisite.
      */
-    public Account findByRequisite(String passport, String requisite) {
-        Account result = null;
-        Optional<List<Account>> accounts = Optional.ofNullable(this.users.get(findByPassport(passport)));
-        if (accounts.isPresent()) {
-            result = accounts.get().stream()
+    public Optional<Account> findByRequisite(String passport, String requisite) {
+        Optional<Account> result = Optional.empty();
+        Optional<User> user = this.findByPassport(passport);
+        if (user.isPresent()) {
+            result = this.users.get(user.get()).stream()
                     .filter(account -> account.getRequisite().equals(requisite))
-                    .findFirst().orElse(null);
+                    .findFirst();
         }
         return result;
     }
@@ -81,8 +81,8 @@ public class BankService {
     public boolean transferMoney(String srcPassport, String srcRequisite,
                                  String dstPassport, String dstRequisite, double amount) {
         boolean result = false;
-        Optional<Account> src = Optional.ofNullable(this.findByRequisite(srcPassport, srcRequisite));
-        Optional<Account> dst = Optional.ofNullable(this.findByRequisite(dstPassport, dstRequisite));
+        Optional<Account> src = this.findByRequisite(srcPassport, srcRequisite);
+        Optional<Account> dst = this.findByRequisite(dstPassport, dstRequisite);
         if (src.isPresent() && dst.isPresent() && src.get().getBalance() - amount >= 0) {
             src.get().setBalance(src.get().getBalance() - amount);
             dst.get().setBalance(dst.get().getBalance() + amount);
